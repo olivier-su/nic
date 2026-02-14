@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Adriana-Camille Valentina?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        background: #e0cfde;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      h1 {
+        margin-bottom: 300px;
+        text-align: center;
+      }
+
+      button {
+        position: absolute;
+        padding: 16px 32px;
+        font-size: 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      #yes {
+        background: #4caf50;
+        color: white;
+        left: 50%;
+        top: 55%;
+        transform: translate(-120%, -50%);
+        transition: transform 0.2s ease; /* smooth animation */
+      }
+
+      #yes:hover {
+        transform: translate(-120%, -50%) scale(1.6); /* grow 20% */
+      }
+
+      #no {
+        background: #f44336;
+        color: white;
+        left: 50%;
+        top: 55%;
+        transform: translate(20%, -50%);
+        transition:
+          left 0.15s ease,
+          top 0.15s ease;
+        touch-action: none;
+      }
+
+      /* Custom popup */
+      #popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        background: white;
+        padding: 30px 50px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        font-size: 24px;
+        color: #333;
+        z-index: 9999;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      #popup.show {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Adriana-Camille, will you be my valentina?</h1>
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+
+    <div id="popup">Yayyy!! 🫶 🎉</div>
+
+    <script>
+      const noButton = document.getElementById("no");
+      const yesButton = document.getElementById("yes");
+      const popup = document.getElementById("popup");
+
+      function teleportButton() {
+        const padding = 20;
+        const maxX = window.innerWidth - noButton.offsetWidth - padding;
+        const maxY = window.innerHeight - noButton.offsetHeight - padding;
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+        noButton.style.left = `${randomX}px`;
+        noButton.style.top = `${randomY}px`;
+      }
+
+      document.addEventListener("mousemove", (e) => {
+        const rect = noButton.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distance = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+        if (distance < 100) teleportButton();
+      });
+
+      noButton.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        teleportButton();
+      });
+
+      yesButton.addEventListener("click", () => {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+
+        popup.classList.add("show");
+
+        setTimeout(() => {
+          popup.classList.remove("show");
+        }, 2500);
+      });
+    </script>
+  </body>
+</html>
